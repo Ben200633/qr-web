@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Restaurant Menü</title>
+<title>Restaurant Menü App</title>
 
 <style>
 body {
@@ -75,7 +75,7 @@ button {
 <body>
 
 <header>
-    <h1>🍽️ Restaurant Menü</h1>
+    <h1>🍽️ Restaurant Menü App</h1>
 
     <div class="lang">
         <button onclick="setLang('de')">🇩🇪 DE</button>
@@ -101,36 +101,74 @@ button {
 
 let lang = "de";
 
-/* 20 GERICHTE */
+/* 🍽️ 50 GERICHTE */
 const menu = [
-{ id:1, name:{de:"🍕 Pizza", en:"🍕 Pizza", tr:"🍕 Pizza"}, price:8.5 },
-{ id:2, name:{de:"🍔 Burger", en:"🍔 Burger", tr:"🍔 Burger"}, price:10 },
-{ id:3, name:{de:"🍟 Pommes", en:"🍟 Fries", tr:"🍟 Patates"}, price:4 },
-{ id:4, name:{de:"🍝 Pasta", en:"🍝 Pasta", tr:"🍝 Makarna"}, price:9.5 },
-{ id:5, name:{de:"🥗 Salat", en:"🥗 Salad", tr:"🥗 Salata"}, price:7.5 },
-{ id:6, name:{de:"🍗 Wings", en:"🍗 Wings", tr:"🍗 Kanat"}, price:9 },
-{ id:7, name:{de:"🌮 Tacos", en:"🌮 Tacos", tr:"🌮 Taco"}, price:8 },
-{ id:8, name:{de:"🍣 Sushi", en:"🍣 Sushi", tr:"🍣 Sushi"}, price:12 },
-{ id:9, name:{de:"🍩 Donut", en:"🍩 Donut", tr:"🍩 Donut"}, price:3 },
-{ id:10, name:{de:"🍰 Kuchen", en:"🍰 Cake", tr:"🍰 Kek"}, price:5.5 },
-{ id:11, name:{de:"☕ Kaffee", en:"☕ Coffee", tr:"☕ Kahve"}, price:2.8 },
-{ id:12, name:{de:"🥤 Cola", en:"🥤 Soda", tr:"🥤 Kola"}, price:2.5 },
-{ id:13, name:{de:"🍹 Saft", en:"🍹 Juice", tr:"🍹 Meyve Suyu"}, price:3.5 },
-{ id:14, name:{de:"🥪 Sandwich", en:"🥪 Sandwich", tr:"🥪 Sandviç"}, price:6 },
-{ id:15, name:{de:"🍳 Frühstück", en:"🍳 Breakfast", tr:"🍳 Kahvaltı"}, price:7 },
-{ id:16, name:{de:"🍤 Garnelen", en:"🍤 Shrimp", tr:"🍤 Karides"}, price:11 },
-{ id:17, name:{de:"🥩 Steak", en:"🥩 Steak", tr:"🥩 Biftek"}, price:15 },
-{ id:18, name:{de:"🍛 Curry", en:"🍛 Curry", tr:"🍛 Köri"}, price:9 },
-{ id:19, name:{de:"🍜 Ramen", en:"🍜 Ramen", tr:"🍜 Ramen"}, price:10 },
-{ id:20, name:{de:"🍨 Eis", en:"🍨 Ice Cream", tr:"🍨 Dondurma"}, price:4 }
+{ id:1, name:{de:"🍕 Pizza Margherita", en:"Margherita Pizza", tr:"Pizza Margherita"}, price:8.5 },
+{ id:2, name:{de:"🍔 Classic Burger", en:"Classic Burger", tr:"Klasik Burger"}, price:10 },
+{ id:3, name:{de:"🍟 Pommes", en:"Fries", tr:"Patates"}, price:4 },
+{ id:4, name:{de:"🍝 Carbonara", en:"Carbonara", tr:"Carbonara"}, price:9.5 },
+{ id:5, name:{de:"🥗 Caesar Salat", en:"Caesar Salad", tr:"Sezar Salata"}, price:7.5 },
+{ id:6, name:{de:"🍗 Chicken Wings", en:"Chicken Wings", tr:"Tavuk Kanat"}, price:9 },
+{ id:7, name:{de:"🌮 Tacos", en:"Tacos", tr:"Taco"}, price:8 },
+{ id:8, name:{de:"🍣 Sushi", en:"Sushi", tr:"Sushi"}, price:12 },
+{ id:9, name:{de:"🍩 Donut", en:"Donut", tr:"Donut"}, price:3 },
+{ id:10, name:{de:"🍰 Cheesecake", en:"Cheesecake", tr:"Cheesecake"}, price:5.5 },
+
+{ id:11, name:{de:"☕ Kaffee", en:"Coffee", tr:"Kahve"}, price:2.8 },
+{ id:12, name:{de:"🥤 Cola", en:"Cola", tr:"Kola"}, price:2.5 },
+{ id:13, name:{de:"🍹 Saft", en:"Juice", tr:"Meyve Suyu"}, price:3.5 },
+{ id:14, name:{de:"🥪 Sandwich", en:"Sandwich", tr:"Sandviç"}, price:6 },
+{ id:15, name:{de:"🍳 Frühstück", en:"Breakfast", tr:"Kahvaltı"}, price:7 },
+
+{ id:16, name:{de:"🍤 Garnelen", en:"Shrimp", tr:"Karides"}, price:11 },
+{ id:17, name:{de:"🥩 Steak", en:"Steak", tr:"Biftek"}, price:15 },
+{ id:18, name:{de:"🍛 Curry", en:"Curry", tr:"Köri"}, price:9 },
+{ id:19, name:{de:"🍜 Ramen", en:"Ramen", tr:"Ramen"}, price:10 },
+{ id:20, name:{de:"🍨 Eis", en:"Ice Cream", tr:"Dondurma"}, price:4 },
+
+{ id:21, name:{de:"🥙 Döner", en:"Doner", tr:"Döner"}, price:7 },
+{ id:22, name:{de:"🍕 Salami Pizza", en:"Salami Pizza", tr:"Salamlı Pizza"}, price:9 },
+{ id:23, name:{de:"🍕 Tonno Pizza", en:"Tuna Pizza", tr:"Ton Balıklı Pizza"}, price:9.5 },
+{ id:24, name:{de:"🥟 Dumplings", en:"Dumplings", tr:"Mantı"}, price:8 },
+{ id:25, name:{de:"🍗 Fried Chicken", en:"Fried Chicken", tr:"Kızarmış Tavuk"}, price:9.5 },
+
+{ id:26, name:{de:"🍔 Cheeseburger", en:"Cheeseburger", tr:"Cheeseburger"}, price:10.5 },
+{ id:27, name:{de:"🍔 BBQ Burger", en:"BBQ Burger", tr:"BBQ Burger"}, price:11 },
+{ id:28, name:{de:"🌭 Hot Dog", en:"Hot Dog", tr:"Sosisli"}, price:6 },
+{ id:29, name:{de:"🥓 Bacon Burger", en:"Bacon Burger", tr:"Bacon Burger"}, price:11.5 },
+{ id:30, name:{de:"🍟 Süßkartoffel", en:"Sweet Potato Fries", tr:"Tatlı Patates"}, price:5 },
+
+{ id:31, name:{de:"🍝 Bolognese", en:"Bolognese", tr:"Bolonez"}, price:9 },
+{ id:32, name:{de:"🍝 Pesto", en:"Pesto Pasta", tr:"Pesto"}, price:9.5 },
+{ id:33, name:{de:"🥗 Gemüse Salat", en:"Veggie Salad", tr:"Sebze Salata"}, price:6.5 },
+{ id:34, name:{de:"🥗 Thunfisch", en:"Tuna Salad", tr:"Ton Balıklı Salata"}, price:8 },
+{ id:35, name:{de:"🍲 Linsensuppe", en:"Lentil Soup", tr:"Mercimek"}, price:5 },
+
+{ id:36, name:{de:"🍖 Grillplatte", en:"Grill Plate", tr:"Izgara"}, price:16 },
+{ id:37, name:{de:"🍗 BBQ Wings", en:"BBQ Wings", tr:"BBQ Kanat"}, price:10 },
+{ id:38, name:{de:"🍤 Fried Shrimp", en:"Fried Shrimp", tr:"Kızarmış Karides"}, price:12 },
+{ id:39, name:{de:"🍛 Chicken Curry", en:"Chicken Curry", tr:"Tavuk Köri"}, price:10 },
+{ id:40, name:{de:"🍚 Rice Bowl", en:"Rice Bowl", tr:"Pirinç"}, price:7 },
+
+{ id:41, name:{de:"🧁 Cupcake", en:"Cupcake", tr:"Cupcake"}, price:3.5 },
+{ id:42, name:{de:"🍫 Schoko Kuchen", en:"Chocolate Cake", tr:"Çikolata Kek"}, price:5 },
+{ id:43, name:{de:"🍪 Cookies", en:"Cookies", tr:"Kurabiye"}, price:3 },
+{ id:44, name:{de:"🍓 Erdbeer Shake", en:"Strawberry Shake", tr:"Çilek Shake"}, price:4.5 },
+{ id:45, name:{de:"🍌 Banana Shake", en:"Banana Shake", tr:"Muz Shake"}, price:4.5 },
+
+{ id:46, name:{de:"🥤 Energy Drink", en:"Energy Drink", tr:"Enerji İçeceği"}, price:3.5 },
+{ id:47, name:{de:"🍋 Limonade", en:"Lemonade", tr:"Limonata"}, price:3 },
+{ id:48, name:{de:"🧃 Apfelsaft", en:"Apple Juice", tr:"Elma Suyu"}, price:3 },
+{ id:49, name:{de:"🍵 Grüner Tee", en:"Green Tea", tr:"Yeşil Çay"}, price:2.5 },
+{ id:50, name:{de:"🫖 Türkischer Tee", en:"Turkish Tea", tr:"Türk Çayı"}, price:2 }
 ];
 
-/* 🛒 CART MIT MENGEN */
+/* 🛒 CART (STACK SYSTEM) */
 let cart = {};
 
 function add(id){
     if(!cart[id]){
-        cart[id] = { ...menu.find(m => m.id === id), qty: 1 };
+        cart[id] = {...menu.find(m=>m.id===id), qty:1};
     } else {
         cart[id].qty++;
     }
@@ -140,9 +178,7 @@ function add(id){
 function remove(id){
     if(cart[id]){
         cart[id].qty--;
-        if(cart[id].qty <= 0){
-            delete cart[id];
-        }
+        if(cart[id].qty <= 0) delete cart[id];
     }
     renderCart();
 }
@@ -179,8 +215,7 @@ function renderCart(){
             <button onclick="add(${item.id})">➕</button>
             <button onclick="remove(${item.id})">➖</button>
             <hr>
-        </div>
-        `;
+        </div>`;
     });
 
     document.getElementById("total").innerText = total.toFixed(2);
