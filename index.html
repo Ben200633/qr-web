@@ -1,119 +1,179 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mein Menü</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f8f8f8;
-            margin: 0;
-            text-align: center;
-        }
-        header {
-            background: #ff6600;
-            color: white;
-            padding: 20px;
-        }
-        .menu {
-            padding: 20px;
-        }
-        .item {
-            background: white;
-            margin: 10px auto;
-            padding: 15px;
-            border-radius: 12px;
-            max-width: 420px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            text-align: left;
-        }
-        .price {
-            color: #ff6600;
-            font-weight: bold;
-        }
-        .title {
-            font-size: 18px;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restaurant Menü</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    margin: 0;
+    text-align: center;
+}
+
+header {
+    background: #ff6600;
+    color: white;
+    padding: 15px;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px;
+}
+
+.item {
+    background: white;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 12px;
+    width: 260px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+button {
+    background: #ff6600;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+button:hover {
+    background: #e65c00;
+}
+
+.cart {
+    position: fixed;
+    right: 10px;
+    top: 80px;
+    background: white;
+    padding: 15px;
+    width: 260px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.lang {
+    margin: 10px;
+}
+
+.small {
+    font-size: 12px;
+    color: gray;
+}
+</style>
 </head>
+
 <body>
 
 <header>
-    <h1>🍽️ Mein Restaurant</h1>
-    <p>Digitales Menü</p>
+    <h1 id="title">🍽️ Restaurant Menü</h1>
+
+    <div class="lang">
+        <button onclick="setLang('de')">🇩🇪 Deutsch</button>
+        <button onclick="setLang('en')">🇬🇧 English</button>
+        <button onclick="setLang('tr')">🇹🇷 Türkçe</button>
+    </div>
 </header>
 
-<div class="menu">
+<div class="container" id="menu"></div>
 
-    <div class="item">
-        <div class="title">🍕 Pizza Margherita</div>
-        <p>Tomatensauce, Mozzarella, Basilikum</p>
-        <p class="price">8,50 €</p>
-    </div>
-
-    <div class="item">
-        <div class="title">🍔 Classic Burger</div>
-        <p>Rindfleisch, Salat, Tomate, Sauce</p>
-        <p class="price">10,00 €</p>
-    </div>
-
-    <div class="item">
-        <div class="title">🍝 Pasta Carbonara</div>
-        <p>Speck, Ei, Sahnesauce, Parmesan</p>
-        <p class="price">9,50 €</p>
-    </div>
-
-    <div class="item">
-        <div class="title">🍟 Pommes Frites</div>
-        <p>Knusprige goldene Kartoffelstäbchen</p>
-        <p class="price">4,00 €</p>
-    </div>
-
-    <div class="item">
-        <div class="title">🥗 Caesar Salat</div>
-        <p>Salat, Hähnchen, Parmesan, Dressing</p>
-        <p class="price">7,50 €</p>
-    </div>
-
-    <div class="item">
-        <div class="title">🍗 Crispy Chicken</div>
-        <p>Knusprige Hähnchenteile mit Dip</p>
-        <p class="price">9,00 €</p>
-    </div>
-
-    <div class="item">
-        <div class="title">🌮 Tacos</div>
-        <p>Mit Hackfleisch, Salat und Käse</p>
-        <p class="price">8,00 €</p>
-    </div>
-
-    <div class="item">
-        <div class="title">🍣 Sushi Mix</div>
-        <p>Verschiedene Sushi Rollen</p>
-        <p class="price">12,00 €</p>
-    </div>
-
-    <div class="item">
-        <div class="title">🥤 Cola</div>
-        <p>Erfrischendes Kaltgetränk</p>
-        <p class="price">2,50 €</p>
-    </div>
-
-    <div class="item">
-        <div class="title">🍰 Cheesecake</div>
-        <p>Cremiger Käsekuchen mit Boden</p>
-        <p class="price">5,50 €</p>
-    </div>
-
-    <div class="item">
-        <div class="title">🍩 Donut</div>
-        <p>Süßer Donut mit Glasur</p>
-        <p class="price">3,00 €</p>
-    </div>
-
+<div class="cart">
+    <h3>🛒 <span id="cartTitle">Warenkorb</span></h3>
+    <div id="cart"></div>
+    <hr>
+    <b id="totalText">Gesamt:</b> <span id="total">0.00</span> €
 </div>
+
+<script>
+let lang = "de";
+
+const texts = {
+    de: { cart: "Warenkorb", total: "Gesamt" },
+    en: { cart: "Cart", total: "Total" },
+    tr: { cart: "Sepet", total: "Toplam" }
+};
+
+const menu = [
+    { id: 1, name: {de:"🍕 Pizza Margherita", en:"🍕 Pizza Margherita", tr:"🍕 Pizza Margherita"}, price: 8.5 },
+    { id: 2, name: {de:"🍔 Burger Classic", en:"🍔 Classic Burger", tr:"🍔 Klasik Burger"}, price: 10 },
+    { id: 3, name: {de:"🍟 Pommes", en:"🍟 Fries", tr:"🍟 Patates Kızartması"}, price: 4 },
+    { id: 4, name: {de:"🍝 Pasta Carbonara", en:"🍝 Carbonara Pasta", tr:"🍝 Carbonara Makarna"}, price: 9.5 },
+    { id: 5, name: {de:"🥗 Caesar Salat", en:"🥗 Caesar Salad", tr:"🥗 Sezar Salatası"}, price: 7.5 },
+    { id: 6, name: {de:"🍗 Chicken Wings", en:"🍗 Chicken Wings", tr:"🍗 Tavuk Kanat"}, price: 9 },
+    { id: 7, name: {de:"🌮 Tacos", en:"🌮 Tacos", tr:"🌮 Taco"}, price: 8 },
+    { id: 8, name: {de:"🍣 Sushi Mix", en:"🍣 Sushi Mix", tr:"🍣 Sushi Karışık"}, price: 12 },
+    { id: 9, name: {de:"🍩 Donut", en:"🍩 Donut", tr:"🍩 Donut"}, price: 3 },
+    { id: 10, name: {de:"🍰 Cheesecake", en:"🍰 Cheesecake", tr:"🍰 Cheesecake"}, price: 5.5 },
+    { id: 11, name: {de:"🥤 Cola", en:"🥤 Cola", tr:"🥤 Kola"}, price: 2.5 },
+    { id: 12, name: {de:"☕ Kaffee", en:"☕ Coffee", tr:"☕ Kahve"}, price: 2.8 },
+];
+
+let cart = [];
+
+function renderMenu() {
+    const container = document.getElementById("menu");
+    container.innerHTML = "";
+
+    menu.forEach(item => {
+        container.innerHTML += `
+        <div class="item">
+            <h3>${item.name[lang]}</h3>
+            <p>${item.price.toFixed(2)} €</p>
+            <button onclick="addToCart(${item.id})">➕</button>
+        </div>`;
+    });
+}
+
+function addToCart(id) {
+    const item = menu.find(m => m.id === id);
+    cart.push(item);
+    renderCart();
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    renderCart();
+}
+
+function renderCart() {
+    const cartDiv = document.getElementById("cart");
+    cartDiv.innerHTML = "";
+
+    let total = 0;
+
+    cart.forEach((item, i) => {
+        total += item.price;
+        cartDiv.innerHTML += `
+            <div>
+                ${item.name[lang]} - ${item.price.toFixed(2)} €
+                <button onclick="removeFromCart(${i})">❌</button>
+            </div>
+        `;
+    });
+
+    document.getElementById("total").innerText = total.toFixed(2);
+
+    document.getElementById("cartTitle").innerText = texts[lang].cart;
+    document.getElementById("totalText").innerText = texts[lang].total + ":";
+}
+
+function setLang(l) {
+    lang = l;
+    renderMenu();
+    renderCart();
+}
+
+renderMenu();
+renderCart();
+</script>
 
 </body>
 </html>
