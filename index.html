@@ -33,7 +33,6 @@ header {
     padding: 10px;
 }
 
-/* MENÜ */
 .menu {
     flex: 2;
     display: grid;
@@ -57,7 +56,6 @@ button {
     cursor: pointer;
 }
 
-/* WARENKORB */
 .cart {
     flex: 1;
     background: white;
@@ -67,9 +65,9 @@ button {
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.small {
-    font-size: 12px;
-    color: gray;
+.qty {
+    font-weight: bold;
+    margin: 0 5px;
 }
 </style>
 </head>
@@ -88,16 +86,13 @@ button {
 
 <div class="main">
 
-    <!-- MENÜ -->
     <div class="menu" id="menu"></div>
 
-    <!-- WARENKORB -->
     <div class="cart">
-        <h3>🛒 <span id="cartTitle">Warenkorb</span></h3>
+        <h3>🛒 Warenkorb</h3>
         <div id="cart"></div>
         <hr>
-        <b>💰 <span id="totalText">Gesamt</span>:</b>
-        <span id="total">0.00</span> €
+        <b>💰 Gesamt:</b> <span id="total">0.00</span> €
     </div>
 
 </div>
@@ -106,31 +101,23 @@ button {
 
 let lang = "de";
 
-const texts = {
-    de: { cart: "Warenkorb", total: "Gesamt" },
-    en: { cart: "Cart", total: "Total" },
-    tr: { cart: "Sepet", total: "Toplam" }
-};
-
-/* 🍽️ 20 GERICHTE */
+/* 20 GERICHTE */
 const menu = [
-{ id:1, name:{de:"🍕 Pizza Margherita", en:"🍕 Pizza", tr:"🍕 Pizza"}, price:8.5 },
-{ id:2, name:{de:"🍔 Burger Classic", en:"🍔 Burger", tr:"🍔 Burger"}, price:10 },
+{ id:1, name:{de:"🍕 Pizza", en:"🍕 Pizza", tr:"🍕 Pizza"}, price:8.5 },
+{ id:2, name:{de:"🍔 Burger", en:"🍔 Burger", tr:"🍔 Burger"}, price:10 },
 { id:3, name:{de:"🍟 Pommes", en:"🍟 Fries", tr:"🍟 Patates"}, price:4 },
-{ id:4, name:{de:"🍝 Pasta Carbonara", en:"🍝 Pasta", tr:"🍝 Makarna"}, price:9.5 },
-{ id:5, name:{de:"🥗 Caesar Salat", en:"🥗 Salad", tr:"🥗 Salata"}, price:7.5 },
-{ id:6, name:{de:"🍗 Chicken Wings", en:"🍗 Wings", tr:"🍗 Kanat"}, price:9 },
+{ id:4, name:{de:"🍝 Pasta", en:"🍝 Pasta", tr:"🍝 Makarna"}, price:9.5 },
+{ id:5, name:{de:"🥗 Salat", en:"🥗 Salad", tr:"🥗 Salata"}, price:7.5 },
+{ id:6, name:{de:"🍗 Wings", en:"🍗 Wings", tr:"🍗 Kanat"}, price:9 },
 { id:7, name:{de:"🌮 Tacos", en:"🌮 Tacos", tr:"🌮 Taco"}, price:8 },
-{ id:8, name:{de:"🍣 Sushi Mix", en:"🍣 Sushi", tr:"🍣 Sushi"}, price:12 },
+{ id:8, name:{de:"🍣 Sushi", en:"🍣 Sushi", tr:"🍣 Sushi"}, price:12 },
 { id:9, name:{de:"🍩 Donut", en:"🍩 Donut", tr:"🍩 Donut"}, price:3 },
-{ id:10, name:{de:"🍰 Cheesecake", en:"🍰 Cake", tr:"🍰 Kek"}, price:5.5 },
-
+{ id:10, name:{de:"🍰 Kuchen", en:"🍰 Cake", tr:"🍰 Kek"}, price:5.5 },
 { id:11, name:{de:"☕ Kaffee", en:"☕ Coffee", tr:"☕ Kahve"}, price:2.8 },
 { id:12, name:{de:"🥤 Cola", en:"🥤 Soda", tr:"🥤 Kola"}, price:2.5 },
 { id:13, name:{de:"🍹 Saft", en:"🍹 Juice", tr:"🍹 Meyve Suyu"}, price:3.5 },
 { id:14, name:{de:"🥪 Sandwich", en:"🥪 Sandwich", tr:"🥪 Sandviç"}, price:6 },
 { id:15, name:{de:"🍳 Frühstück", en:"🍳 Breakfast", tr:"🍳 Kahvaltı"}, price:7 },
-
 { id:16, name:{de:"🍤 Garnelen", en:"🍤 Shrimp", tr:"🍤 Karides"}, price:11 },
 { id:17, name:{de:"🥩 Steak", en:"🥩 Steak", tr:"🥩 Biftek"}, price:15 },
 { id:18, name:{de:"🍛 Curry", en:"🍛 Curry", tr:"🍛 Köri"}, price:9 },
@@ -138,30 +125,40 @@ const menu = [
 { id:20, name:{de:"🍨 Eis", en:"🍨 Ice Cream", tr:"🍨 Dondurma"}, price:4 }
 ];
 
-let cart = [];
-
-function renderMenu(){
-    const menuDiv = document.getElementById("menu");
-    menuDiv.innerHTML = "";
-
-    menu.forEach(item => {
-        menuDiv.innerHTML += `
-        <div class="item">
-            <h3>${item.name[lang]}</h3>
-            <p>${item.price.toFixed(2)} €</p>
-            <button onclick="add(${item.id})">➕</button>
-        </div>`;
-    });
-}
+/* 🛒 CART MIT MENGEN */
+let cart = {};
 
 function add(id){
-    cart.push(menu.find(x => x.id === id));
+    if(!cart[id]){
+        cart[id] = { ...menu.find(m => m.id === id), qty: 1 };
+    } else {
+        cart[id].qty++;
+    }
     renderCart();
 }
 
-function remove(i){
-    cart.splice(i,1);
+function remove(id){
+    if(cart[id]){
+        cart[id].qty--;
+        if(cart[id].qty <= 0){
+            delete cart[id];
+        }
+    }
     renderCart();
+}
+
+function renderMenu(){
+    let div = document.getElementById("menu");
+    div.innerHTML = "";
+
+    menu.forEach(m=>{
+        div.innerHTML += `
+        <div class="item">
+            <h3>${m.name[lang]}</h3>
+            <p>${m.price.toFixed(2)} €</p>
+            <button onclick="add(${m.id})">➕</button>
+        </div>`;
+    });
 }
 
 function renderCart(){
@@ -170,19 +167,23 @@ function renderCart(){
 
     let total = 0;
 
-    cart.forEach((c,i)=>{
-        total += c.price;
+    Object.values(cart).forEach(item=>{
+        total += item.price * item.qty;
+
         div.innerHTML += `
-            <div>
-                ${c.name[lang]} - ${c.price.toFixed(2)} €
-                <button onclick="remove(${i})">❌</button>
-            </div>
+        <div>
+            ${item.name[lang]} 
+            <span class="qty">x${item.qty}</span>
+            ${ (item.price * item.qty).toFixed(2) } €
+            <br>
+            <button onclick="add(${item.id})">➕</button>
+            <button onclick="remove(${item.id})">➖</button>
+            <hr>
+        </div>
         `;
     });
 
     document.getElementById("total").innerText = total.toFixed(2);
-    document.getElementById("cartTitle").innerText = texts[lang].cart;
-    document.getElementById("totalText").innerText = texts[lang].total;
 }
 
 function setLang(l){
