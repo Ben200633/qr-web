@@ -8,30 +8,43 @@
 <style>
 body {
     font-family: Arial, sans-serif;
-    background: #f5f5f5;
     margin: 0;
-    text-align: center;
+    background: #f5f5f5;
 }
 
 header {
     background: #ff6600;
     color: white;
     padding: 15px;
+    text-align: center;
 }
 
-.container {
+.lang button {
+    margin: 5px;
+    padding: 6px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.main {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    gap: 10px;
     padding: 10px;
+}
+
+/* MENÜ */
+.menu {
+    flex: 2;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
 }
 
 .item {
     background: white;
-    margin: 10px;
-    padding: 15px;
+    padding: 12px;
     border-radius: 12px;
-    width: 260px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
@@ -39,29 +52,19 @@ button {
     background: #ff6600;
     color: white;
     border: none;
-    padding: 8px;
+    padding: 6px;
     border-radius: 6px;
     cursor: pointer;
-    margin-top: 5px;
 }
 
-button:hover {
-    background: #e65c00;
-}
-
+/* WARENKORB */
 .cart {
-    position: fixed;
-    right: 10px;
-    top: 80px;
+    flex: 1;
     background: white;
     padding: 15px;
-    width: 260px;
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-}
-
-.lang {
-    margin: 10px;
+    height: fit-content;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .small {
@@ -74,25 +77,33 @@ button:hover {
 <body>
 
 <header>
-    <h1 id="title">🍽️ Restaurant Menü</h1>
+    <h1>🍽️ Restaurant Menü</h1>
 
     <div class="lang">
-        <button onclick="setLang('de')">🇩🇪 Deutsch</button>
-        <button onclick="setLang('en')">🇬🇧 English</button>
-        <button onclick="setLang('tr')">🇹🇷 Türkçe</button>
+        <button onclick="setLang('de')">🇩🇪 DE</button>
+        <button onclick="setLang('en')">🇬🇧 EN</button>
+        <button onclick="setLang('tr')">🇹🇷 TR</button>
     </div>
 </header>
 
-<div class="container" id="menu"></div>
+<div class="main">
 
-<div class="cart">
-    <h3>🛒 <span id="cartTitle">Warenkorb</span></h3>
-    <div id="cart"></div>
-    <hr>
-    <b id="totalText">Gesamt:</b> <span id="total">0.00</span> €
+    <!-- MENÜ -->
+    <div class="menu" id="menu"></div>
+
+    <!-- WARENKORB -->
+    <div class="cart">
+        <h3>🛒 <span id="cartTitle">Warenkorb</span></h3>
+        <div id="cart"></div>
+        <hr>
+        <b>💰 <span id="totalText">Gesamt</span>:</b>
+        <span id="total">0.00</span> €
+    </div>
+
 </div>
 
 <script>
+
 let lang = "de";
 
 const texts = {
@@ -101,71 +112,80 @@ const texts = {
     tr: { cart: "Sepet", total: "Toplam" }
 };
 
+/* 🍽️ 20 GERICHTE */
 const menu = [
-    { id: 1, name: {de:"🍕 Pizza Margherita", en:"🍕 Pizza Margherita", tr:"🍕 Pizza Margherita"}, price: 8.5 },
-    { id: 2, name: {de:"🍔 Burger Classic", en:"🍔 Classic Burger", tr:"🍔 Klasik Burger"}, price: 10 },
-    { id: 3, name: {de:"🍟 Pommes", en:"🍟 Fries", tr:"🍟 Patates Kızartması"}, price: 4 },
-    { id: 4, name: {de:"🍝 Pasta Carbonara", en:"🍝 Carbonara Pasta", tr:"🍝 Carbonara Makarna"}, price: 9.5 },
-    { id: 5, name: {de:"🥗 Caesar Salat", en:"🥗 Caesar Salad", tr:"🥗 Sezar Salatası"}, price: 7.5 },
-    { id: 6, name: {de:"🍗 Chicken Wings", en:"🍗 Chicken Wings", tr:"🍗 Tavuk Kanat"}, price: 9 },
-    { id: 7, name: {de:"🌮 Tacos", en:"🌮 Tacos", tr:"🌮 Taco"}, price: 8 },
-    { id: 8, name: {de:"🍣 Sushi Mix", en:"🍣 Sushi Mix", tr:"🍣 Sushi Karışık"}, price: 12 },
-    { id: 9, name: {de:"🍩 Donut", en:"🍩 Donut", tr:"🍩 Donut"}, price: 3 },
-    { id: 10, name: {de:"🍰 Cheesecake", en:"🍰 Cheesecake", tr:"🍰 Cheesecake"}, price: 5.5 },
-    { id: 11, name: {de:"🥤 Cola", en:"🥤 Cola", tr:"🥤 Kola"}, price: 2.5 },
-    { id: 12, name: {de:"☕ Kaffee", en:"☕ Coffee", tr:"☕ Kahve"}, price: 2.8 },
+{ id:1, name:{de:"🍕 Pizza Margherita", en:"🍕 Pizza", tr:"🍕 Pizza"}, price:8.5 },
+{ id:2, name:{de:"🍔 Burger Classic", en:"🍔 Burger", tr:"🍔 Burger"}, price:10 },
+{ id:3, name:{de:"🍟 Pommes", en:"🍟 Fries", tr:"🍟 Patates"}, price:4 },
+{ id:4, name:{de:"🍝 Pasta Carbonara", en:"🍝 Pasta", tr:"🍝 Makarna"}, price:9.5 },
+{ id:5, name:{de:"🥗 Caesar Salat", en:"🥗 Salad", tr:"🥗 Salata"}, price:7.5 },
+{ id:6, name:{de:"🍗 Chicken Wings", en:"🍗 Wings", tr:"🍗 Kanat"}, price:9 },
+{ id:7, name:{de:"🌮 Tacos", en:"🌮 Tacos", tr:"🌮 Taco"}, price:8 },
+{ id:8, name:{de:"🍣 Sushi Mix", en:"🍣 Sushi", tr:"🍣 Sushi"}, price:12 },
+{ id:9, name:{de:"🍩 Donut", en:"🍩 Donut", tr:"🍩 Donut"}, price:3 },
+{ id:10, name:{de:"🍰 Cheesecake", en:"🍰 Cake", tr:"🍰 Kek"}, price:5.5 },
+
+{ id:11, name:{de:"☕ Kaffee", en:"☕ Coffee", tr:"☕ Kahve"}, price:2.8 },
+{ id:12, name:{de:"🥤 Cola", en:"🥤 Soda", tr:"🥤 Kola"}, price:2.5 },
+{ id:13, name:{de:"🍹 Saft", en:"🍹 Juice", tr:"🍹 Meyve Suyu"}, price:3.5 },
+{ id:14, name:{de:"🥪 Sandwich", en:"🥪 Sandwich", tr:"🥪 Sandviç"}, price:6 },
+{ id:15, name:{de:"🍳 Frühstück", en:"🍳 Breakfast", tr:"🍳 Kahvaltı"}, price:7 },
+
+{ id:16, name:{de:"🍤 Garnelen", en:"🍤 Shrimp", tr:"🍤 Karides"}, price:11 },
+{ id:17, name:{de:"🥩 Steak", en:"🥩 Steak", tr:"🥩 Biftek"}, price:15 },
+{ id:18, name:{de:"🍛 Curry", en:"🍛 Curry", tr:"🍛 Köri"}, price:9 },
+{ id:19, name:{de:"🍜 Ramen", en:"🍜 Ramen", tr:"🍜 Ramen"}, price:10 },
+{ id:20, name:{de:"🍨 Eis", en:"🍨 Ice Cream", tr:"🍨 Dondurma"}, price:4 }
 ];
 
 let cart = [];
 
-function renderMenu() {
-    const container = document.getElementById("menu");
-    container.innerHTML = "";
+function renderMenu(){
+    const menuDiv = document.getElementById("menu");
+    menuDiv.innerHTML = "";
 
     menu.forEach(item => {
-        container.innerHTML += `
+        menuDiv.innerHTML += `
         <div class="item">
             <h3>${item.name[lang]}</h3>
             <p>${item.price.toFixed(2)} €</p>
-            <button onclick="addToCart(${item.id})">➕</button>
+            <button onclick="add(${item.id})">➕</button>
         </div>`;
     });
 }
 
-function addToCart(id) {
-    const item = menu.find(m => m.id === id);
-    cart.push(item);
+function add(id){
+    cart.push(menu.find(x => x.id === id));
     renderCart();
 }
 
-function removeFromCart(index) {
-    cart.splice(index, 1);
+function remove(i){
+    cart.splice(i,1);
     renderCart();
 }
 
-function renderCart() {
-    const cartDiv = document.getElementById("cart");
-    cartDiv.innerHTML = "";
+function renderCart(){
+    let div = document.getElementById("cart");
+    div.innerHTML = "";
 
     let total = 0;
 
-    cart.forEach((item, i) => {
-        total += item.price;
-        cartDiv.innerHTML += `
+    cart.forEach((c,i)=>{
+        total += c.price;
+        div.innerHTML += `
             <div>
-                ${item.name[lang]} - ${item.price.toFixed(2)} €
-                <button onclick="removeFromCart(${i})">❌</button>
+                ${c.name[lang]} - ${c.price.toFixed(2)} €
+                <button onclick="remove(${i})">❌</button>
             </div>
         `;
     });
 
     document.getElementById("total").innerText = total.toFixed(2);
-
     document.getElementById("cartTitle").innerText = texts[lang].cart;
-    document.getElementById("totalText").innerText = texts[lang].total + ":";
+    document.getElementById("totalText").innerText = texts[lang].total;
 }
 
-function setLang(l) {
+function setLang(l){
     lang = l;
     renderMenu();
     renderCart();
@@ -173,6 +193,7 @@ function setLang(l) {
 
 renderMenu();
 renderCart();
+
 </script>
 
 </body>
